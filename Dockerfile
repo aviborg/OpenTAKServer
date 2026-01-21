@@ -14,12 +14,14 @@ RUN python -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
 
 # TODO: Install from PyPI
-RUN pip install git+https://github.com/brian7704/OpenTAKServer.git
+ENV OTS_GITHUB_USER=brian7704
+RUN pip install git+https://github.com/${OTS_GITHUB_USER}/OpenTAKServer.git
 
 RUN /app/venv/bin/flask --app /app/venv/lib/python3.13/site-packages/opentakserver/app.py ots create-ca
 #RUN /app/venv/bin/flask --app /app/venv/lib/python3.13/site-packages/opentakserver/app.py db upgrade
 
-EXPOSE 8081
+ENV OTS_LISTENER_PORT=8081
+EXPOSE $OTS_LISTENER_PORT
 
 ENTRYPOINT ["opentakserver"]
 
@@ -27,4 +29,4 @@ ENTRYPOINT ["opentakserver"]
 # Docker compose tries to stop processes using SIGTERM by default, then sends SIGKILL after a delay if the process doesn't stop.
 STOPSIGNAL SIGINT
 
-HEALTHCHECK --interval=1m CMD curl --fail http://localhost:8081/api/health || exit 1
+HEALTHCHECK --interval=1m CMD curl --fail http://localhost:$OTS_LISTENER_PORT/api/health || exit 1

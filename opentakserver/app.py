@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 from gevent import monkey
 monkey.patch_all()
 
@@ -330,7 +332,7 @@ def main(app):
         if icons == 0:
             logger.info("Downloading icons...")
             try:
-                r = requests.get("https://github.com/brian7704/OpenTAKServer-Installer/raw/master/iconsets.sqlite", stream=True)
+                r = requests.get(f"https://github.com/{current_app.config.get('OTS_GITHUB_USER')}/OpenTAKServer-Installer/raw/master/iconsets.sqlite", stream=True)
                 with open(os.path.join(app.config.get("OTS_DATA_FOLDER"), "icons.sqlite"), "wb") as f:
                     f.write(r.content)
 

@@ -10,6 +10,7 @@ import os
 class DefaultConfig:
     SECRET_KEY = os.getenv("SECRET_KEY", secrets.token_hex())
     DEBUG = os.getenv("DEBUG", "False").lower() in ["true", "1", "yes"]
+    OTS_GITHUB_USER = os.getenv("OTS_GITHUB_USER", "brian7704")
 
     OTS_LANGUAGES = {'US': {'name': 'English', 'language_code': 'en'},
                      'DE': {'name': 'Deutsch', 'language_code': 'de'},

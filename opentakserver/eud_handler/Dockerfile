@@ -12,11 +12,13 @@ RUN chown -R ots:ots /app
 RUN python -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH"
 
-RUN pip install git+https://github.com/brian7704/OpenTAKServer.git@docker
+ENV OTS_GITHUB_USER=brian7704
+RUN pip install git+https://github.com/${OTS_GITHUB_USER}/OpenTAKServer.git@docker
 
 USER ots
 
-EXPOSE 8088
+ENV OTS_TCP_STREAMING_PORT=8088
+EXPOSE $OTS_TCP_STREAMING_PORT
 
 CMD ["/app/venv/bin/eud_handler", "--no-ssl"]
 
